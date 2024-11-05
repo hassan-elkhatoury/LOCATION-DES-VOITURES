@@ -1,0 +1,11 @@
+# ninja log v6
+33	572	7521105628589985	CMakeFiles/test_projet.dir/tempCodeRunnerFile.c.obj	279cf92e8e86f876
+10	2081	7521110283470099	CMakeFiles/test_projet.dir/interfacc.c.obj	b44631f86b7a4829
+7	571	7521129203298398	build.ninja	31e2784ed23f541b
+2082	2421	7521110304180680	test_projet.exe	c7f8866ce0a7a403
+26	2139	7521129212177872	CMakeFiles/test_projet.dir/interfacc.c.obj	b44631f86b7a4829
+2140	2463	7521129233312292	test_projet.exe	c7f8866ce0a7a403
+10	1485	7521130565386992	CMakeFiles/test_projet.dir/interfacc.c.obj	b44631f86b7a4829
+1486	1679	7521130580140973	test_projet.exe	c7f8866ce0a7a403
+9	1679	7521134727830442	CMakeFiles/test_projet.dir/interfacc.c.obj	b44631f86b7a4829
+1680	1924	7521134744540761	test_projet.exe	c7f8866ce0a7a403

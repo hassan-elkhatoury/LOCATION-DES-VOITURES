@@ -1,0 +1,3 @@
+nom		prenom		address			phone		age	cin			email				password
+-----------------------------------------------------------------------------------------------------
+cd	"c:\Users\Hassan\Desktop\LOCATION	DES	10	5	VOITURES\"	;	if
