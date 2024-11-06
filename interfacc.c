@@ -40,7 +40,6 @@ void setColor(int color) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
-
 typedef struct {
     char nom[50];
     char address[50];
