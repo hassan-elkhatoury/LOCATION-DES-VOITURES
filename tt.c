@@ -41,11 +41,11 @@ void setColor(int color) {
     SetConsoleTextAttribute(hConsole, color);
 }
 
-typedef struct {
-    char nom[50];
-    char address[50];
-    char phone[20];
 
+typedef struct {
+    char nom[100];
+    char address[100];
+    char phone[20];
     int age;
     char cin[50];
     char email[50];
@@ -57,6 +57,11 @@ typedef struct {
     char modele[50];
     float prix;
 }voiture;
+typedef struct Options{
+    char **ops;
+    int len;
+    char title[100];
+}Options;
 
 int isValidEmail(const char *email) {
     const char *at = strchr(email, '@');  // Find the '@' character
@@ -99,10 +104,11 @@ int isValidPhoneNumber(const char *phone) {
 
 
 void saisie() {
-    client client1,client2;
+    client client1;
     FILE *fsaisie;
     char line[2000];
-    const char *header ="Nom Complet\t\tAddress\t\t\tPhone\t\tAge\tCIN\t\t\tEmail\t\t\t\tPassword\n";
+    char test_pass[20];
+    const char *header ="Nom Complet\t\t\tAddress\tPhone\t\tAge\tCin\t\t\tEmail\t\t\t\tPassword\n";
     
     printf(CYAN);
     printf("Ecrire votre nom complet : \n");
@@ -113,7 +119,7 @@ void saisie() {
     fgets(client1.address, sizeof(client1.address), stdin);
     client1.address[strcspn(client1.address, "\n")] = '\0'; 
      while(1){
-     printf("ecrire votre phone : \n");
+     printf("Ecrire votre phone : \n");
      scanf("%19s", client1.phone);
 
      if (isValidPhoneNumber(client1.phone)) {
@@ -124,14 +130,14 @@ void saisie() {
         }
      }
 
-     printf("ecrire votre age : \n");
+     printf("Ecrire votre age : \n");
      scanf("%d",&client1.age);
-     printf("ecrire votre cin : \n");
+     printf("Ecrire votre cin : \n");
      scanf("%s",client1.cin);
 
    while (1) {
         int email_exists = 0;
-        printf("ecrire votre email : \n");
+        printf("Ecrire votre email : \n");
         scanf("%49s", client1.email);
 
         // Check email format
@@ -157,32 +163,35 @@ void saisie() {
         if (email_exists) {
             printf(RED"Cet email est deja existe !!\n");
             setColor(cyan);
-            printf("essayez de l'entrer a nouveau !:\n");
+            printf("Essayez de l'entrer a nouveau !:\n");
         } else {
             break;
         }
     } 
 
-     printf("ecrire votre password : \n");
+     printf("Ecrire votre password : \n");
     getPassword(client1.password, sizeof(client1.password));
     printf("\n");
-    printf("ecrire votre password a nouveau : \n");
-    getPassword(client2.password, sizeof(client2.password));
+    printf("Ecrire votre password a nouveau : \n");
+    getPassword(test_pass, sizeof(test_pass));
     printf("\n");
-    if (strcmp(client1.password, client2.password) == 0) {
+    while(1){
+    if (strcmp(client1.password,test_pass) == 0) {
         printf(GREEN "Merci! Votre compte a ete cree avec succes.\n");
-        printf(CYAN  "Veuillez essayer de vous connecter en selectionnant l'option :"MAGENTA" J'ai deja un compte.\n");
-        windows("pause");
+        printf("Veuillez essayer de vous connecter en selectionnant l'option :"MAGENTA" J'ai deja un compte.\n");
+    system("pause");
     } 
         else {
-            printf(RED"les deux password sont different \n");
-            printf(CYAN"  essayez de l'entrer a nouveau !:\n");
+            printf(RED"Les deux password sont different \n");
+            printf(CYAN"Essayez de l'entrer a nouveau !:\n");
             getPassword(client1.password, sizeof(client1.password));
 
 
-        }
 
-fsaisie=fopen("fsaisie.txt","a+");
+        }
+    }
+
+    fsaisie=fopen("fsaisie.txt","a+");
     if(fsaisie==NULL){
         printf(RED"Error in opening file");
         exit(1);
@@ -192,19 +201,10 @@ fsaisie=fopen("fsaisie.txt","a+");
         fprintf(fsaisie,"%s",header);
         fprintf(fsaisie,"%s","-----------------------------------------------------------------------------------------------------\n");
     }
-     fprintf(fsaisie,"%s\t%s\t%s\t%s\t%d\t%s\t%s\t%s\n",client1.nom,client1.address,client1.phone,client1.age,client1.cin,client1.email,client1.password);
+     fprintf(fsaisie,"%s\t%s\t%s\t%d\t%s\t%s\t%s\n",client1.nom,client1.address,client1.phone,client1.age,client1.cin,client1.email,client1.password);
      fclose(fsaisie);
- }
-// Function to log in with an existing account
-
-
-typedef struct Options{
-    char **ops;
-    int len;
-    char *title;
-}Options;
-
-// Function to calculate the visible length of a string (ignoring ANSI codes)
+    }
+    // Function to calculate the visible length of a string (ignoring ANSI codes)
 int visible_length(const char *text) {
     int len = 0;
     int in_escape = 0;
@@ -223,7 +223,7 @@ int visible_length(const char *text) {
     return len;
 }
 
-// Function to center text with ANSI codes based on console width
+    // Function to center text with ANSI codes based on console width
 void print_centered(const char *text) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -296,23 +296,38 @@ int select_menu(Options options) {
         }
     }
 }
-
-void display_car_models_menu() {
+void diplay_conexion(){
+    
+}
+void display_car_models_menu(const char *nom) {
     Options options;
     char *CAR_OPTIONS[] = {
        BOLD "Modeles de voiture",
-       BOLD "Sortir",
-       BOLD "Reservation d'une voiture"
+       BOLD "Reservation d'une voiture",
+       BOLD "Sortir"
     };
-    options.title = "MENU DES MODELES DE VOITURE";
+    snprintf(options.title, sizeof(options.title), "MENU DE CONNECTION - Bienvenue, %s!", nom);
     options.ops = CAR_OPTIONS;
     options.len = sizeof(CAR_OPTIONS) / sizeof(CAR_OPTIONS[0]);
 
     int option = select_menu(options);
    
-    printf("# Selected: %s\n", options.ops[option]);
-    // Implement the logic based on the selected option (e.g., show car models)
+    switch (option){
+        case 0:
+            
+            break;
+        case 1:
+            
+            break;
+        case 2: 
+            exit(0);
+            break;
+        default:
+            printf("Option invalide.\n");
+            break;
+    } 
 }
+
 int login() {
     FILE *fsaisie;
     char email[30];
@@ -341,26 +356,29 @@ int login() {
     while (fgets(line, sizeof(line), fsaisie)) {
         char fileEmail[2000];
         char filePassword[1000];
+        char fileNom[100];
 
-        // Assuming fields are tab-separated, parse the email and password from the line
-        sscanf(line, "%*s %*s %*s %*s %*d %*s %49s %49s", fileEmail, filePassword);
+        // canhedo les espace odkchi
+        sscanf(line, "%[^\t] %*s %*s %*s %*d %*s %49s %49s", fileNom, fileEmail, filePassword);
 
         // Check if email and password match
         if (strcmp(email, fileEmail) == 0 && strcmp(password, filePassword) == 0) {
             authenticated = 1;
+             strncpy(client1.nom, fileNom, sizeof(client1.nom) - 1);
+            client1.nom[sizeof(client1.nom) - 1] = '\0';
             break;
         }
-    }
+    }   
     fclose(fsaisie);
 
     // Check if login was successful
     if (authenticated) {
-    display_car_models_menu();
+    display_car_models_menu(client1.nom);
     
     } 
     else {
         printf(RED "\n Invalid email or password. Please try again.\n");
-        return 0;
+        login();
     }
 }
 int main() {
@@ -370,7 +388,7 @@ int main() {
     BOLD "J'ai deja un compte",
     BOLD "Sortir"
     };
-    options.title = "MENU DE CONNECTION";
+    strcpy(options.title, "MENU DE CONNECTION");
     options.ops = LOGIN_OPTIONS;
     options.len = sizeof(LOGIN_OPTIONS) / sizeof(LOGIN_OPTIONS[0]);
 
