@@ -22,7 +22,7 @@
 #define black           0
 #define blue            1
 #define green           2
-#define cyan            3  // aqua
+#define cyan            3  
 #define red             4
 #define purple          5
 #define yellow          6
@@ -64,10 +64,10 @@ typedef struct Options{
 }Options;
 
 int isValidEmail(const char *email) {
-    const char *at = strchr(email, '@');  // Find the '@' character
-    const char *dot = strrchr(email, '.'); // Find the last '.' character
+    const char *at = strchr(email, '@');  // pour trouver '@' dans email
+    const char *dot = strrchr(email, '.'); // pour trouver '.' dans email
 
-    // Check if '@' exists, '.' exists, and '.' comes after '@'
+    // verifier si '@' trouree, '.' trouvee, et '.' vient apres '@'
     return (at != NULL && dot != NULL && dot > at);
 }
 
@@ -75,27 +75,27 @@ void getPassword(char *password, int maxLen) {
     int i = 0;
     char ch;
     while (i < maxLen - 1) {
-        ch = getch();  // Read character without displaying it
-        if (ch == '\r') {  // Enter key
+        ch = getch();  
+        if (ch == '\r') { 
             break;
-        } else if (ch == '\b' && i > 0) {  // Backspace handling
+        } else if (ch == '\b' && i > 0) {  
             i--;
-            printf("\b \b");  // Remove '*' from screen
-        } else if (isprint(ch)) {  // Store printable character
+            printf("\b \b");  
+        } else if (isprint(ch)) {  
             password[i++] = ch;
-            printf("*");  // Display '*' for each character typed
+            printf("*");
         }
     }
-    password[i] = '\0';  // Null-terminate the password
+    password[i] = '\0'; 
 }
 
 int isValidPhoneNumber(const char *phone) {
     if (strlen(phone) != 10) {
-        return 0;  // Must be exactly 10 characters
+        return 0;  
     }
     for (int i = 0; i < 10; i++) {
         if (!isdigit(phone[i])) {
-            return 0;  // Each character must be a digit
+            return 0; 
         }
     }
     return 1;
@@ -113,7 +113,7 @@ void saisie() {
     printf(CYAN);
     printf("Ecrire votre nom complet : \n");
     fgets(client1.nom, sizeof(client1.nom), stdin);
-    client1.nom[strcspn(client1.nom, "\n")] = '\0';  // Remove trailing newline if present
+    client1.nom[strcspn(client1.nom, "\n")] = '\0';
 
     printf("Ecrire votre address : \n");
     fgets(client1.address, sizeof(client1.address), stdin);
@@ -123,7 +123,7 @@ void saisie() {
      scanf("%19s", client1.phone);
 
      if (isValidPhoneNumber(client1.phone)) {
-            break;  // Exit loop if phone number is valid
+            break;  
         } else {
             printf(RED"Numero de telephone invalide! Assurez-vous qu'il contient exactement 10 chiffres.\n");
             setColor(cyan); 
@@ -140,15 +140,14 @@ void saisie() {
         printf("Ecrire votre email : \n");
         scanf("%49s", client1.email);
 
-        // Check email format
         while (!isValidEmail(client1.email)) {
             printf(RED"Email invalide! Assurez-vous qu'il contient '@' et '.' \n");
-            setColor(cyan);  // Reset color
+            setColor(cyan);  
             printf("Essayez de l'entrer a nouveau :\n");
             scanf("%49s", client1.email);
         }
 
-        // Check if the email already exists
+    
         fsaisie = fopen("fsaisie.txt", "r");
         if (fsaisie != NULL) {
             while (fgets(line, sizeof(line), fsaisie)) {
@@ -180,13 +179,12 @@ void saisie() {
         printf(GREEN "Merci! Votre compte a ete cree avec succes.\n");
         printf("Veuillez essayer de vous connecter en selectionnant l'option :"MAGENTA" J'ai deja un compte.\n");
     system("pause");
+    break;
     } 
         else {
             printf(RED"Les deux password sont different \n");
             printf(CYAN"Essayez de l'entrer a nouveau !:\n");
             getPassword(client1.password, sizeof(client1.password));
-
-
 
         }
     }
@@ -204,18 +202,17 @@ void saisie() {
      fprintf(fsaisie,"%s\t%s\t%s\t%d\t%s\t%s\t%s\n",client1.nom,client1.address,client1.phone,client1.age,client1.cin,client1.email,client1.password);
      fclose(fsaisie);
     }
-    // Function to calculate the visible length of a string (ignoring ANSI codes)
 int visible_length(const char *text) {
     int len = 0;
     int in_escape = 0;
     
     while (*text) {
-        if (*text == '\033') {  // Start of escape sequence
+        if (*text == '\033') {  
             in_escape = 1;
-        } else if (in_escape && *text == 'm') {  // End of escape sequence
+        } else if (in_escape && *text == 'm') {  
             in_escape = 0;
         } else if (!in_escape) {
-            len++;  // Count visible characters
+            len++;  
         }
         text++;
     }
@@ -223,29 +220,22 @@ int visible_length(const char *text) {
     return len;
 }
 
-    // Function to center text with ANSI codes based on console width
 void print_centered(const char *text) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    // Get console screen buffer info
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(hConsole, &csbi);
     
-    // Calculate the console width
     int console_width = csbi.srWindow.Right - csbi.srWindow.Left + 1;
 
-    // Calculate the visible text length (ignoring ANSI codes)
     int text_len = visible_length(text);
 
-    // Calculate padding
     int padding = (console_width - text_len) / 2;
 
-    // Print padding spaces
     for (int i = 0; i < padding; i++) {
         printf(" ");
     }
 
-    // Print the actual text with ANSI color codes
     printf("%s\n", text);
 }
 
@@ -263,9 +253,7 @@ void draw(int op,Options options){
 
 int select_menu(Options options) {
     int current_option = 0;
-    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);  // Get the input handle
-
-    // Set input mode to enable window input (for arrow keys)
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);  
     DWORD mode;
     GetConsoleMode(hInput, &mode);
     SetConsoleMode(hInput, mode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT));
@@ -290,7 +278,7 @@ int select_menu(Options options) {
                         draw(current_option , options);
                     }
                     break;
-                case VK_RETURN:  // Enter key pressed
+                case VK_RETURN:  
                     return current_option;
             }
         }
@@ -328,59 +316,50 @@ void display_car_models_menu(const char *nom) {
     } 
 }
 
-int login() {
+void login() {
     FILE *fsaisie;
-    char email[30];
+    char email[50];
     char password[50];
     char line[2000];
-    int authenticated = 0;
     client client1;
 
-    // Prompt user for email
-    setColor(purple);
-    printf("Enter your email: ");
-    scanf("%49s", email);
+    while (1) {
+        setColor(purple);
+        printf("Enter your email: ");
+        scanf("%49s", email);
+        printf("Enter your password: ");
+        getPassword(password, sizeof(password));
+        printf("\n");
 
-    // Prompt user for password (hidden input)
-    printf("Enter your password: ");
-    getPassword(password, sizeof(password));
-
-    // Open the file to check credentials
-    fsaisie = fopen("fsaisie.txt", "r");
-    if (fsaisie == NULL) {
-        printf(RED"Error opening the file.\n");
-        return 0;
-    }
-
-    // Search for matching email and password
-    while (fgets(line, sizeof(line), fsaisie)) {
-        char fileEmail[2000];
-        char filePassword[1000];
-        char fileNom[100];
-
-        // canhedo les espace odkchi
-        sscanf(line, "%[^\t] %*s %*s %*s %*d %*s %49s %49s", fileNom, fileEmail, filePassword);
-
-        // Check if email and password match
-        if (strcmp(email, fileEmail) == 0 && strcmp(password, filePassword) == 0) {
-            authenticated = 1;
-             strncpy(client1.nom, fileNom, sizeof(client1.nom) - 1);
-            client1.nom[sizeof(client1.nom) - 1] = '\0';
-            break;
+        fsaisie = fopen("fsaisie.txt", "r");
+        if (fsaisie == NULL) {
+            printf(RED "Error opening the file.\n");
+            return;
         }
-    }   
-    fclose(fsaisie);
 
-    // Check if login was successful
-    if (authenticated) {
-    display_car_models_menu(client1.nom);
-    
-    } 
-    else {
-        printf(RED "\n Invalid email or password. Please try again.\n");
-        login();
+        int authenticated = 0;
+        while (fgets(line, sizeof(line), fsaisie)) {
+            char fileEmail[50], filePassword[50], fileNom[100];
+            sscanf(line, "%s %*s %*s %*s %*d %*s %49s %49s", fileNom, fileEmail, filePassword);
+
+            if (strcmp(email, fileEmail) == 0 && strcmp(password, filePassword) == 0) {
+                authenticated = 1;
+                strncpy(client1.nom, fileNom, sizeof(client1.nom) - 1);
+                client1.nom[sizeof(client1.nom) - 1] = '\0';
+                break;
+            }
+        }
+        fclose(fsaisie);
+
+        if (authenticated) {
+            display_car_models_menu(client1.nom);
+            return;
+        } else {
+            printf(RED "\nInvalid email or password. Please try again.\n" RESET);
+        }
     }
 }
+
 int main() {
    Options options;
     char *LOGIN_OPTIONS[] = {

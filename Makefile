@@ -4,7 +4,7 @@ CC = gcc
 
 
 # Executable name
-TARGET = interfacc
+TARGET = tt.c
 
 # Source files (all .c files in the current directory)
 SRCS = $(wildcard *.c)

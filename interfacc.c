@@ -43,7 +43,7 @@ void setColor(int color) {
 typedef struct {
     char nom[50];
     char address[50];
-    char phone[20];
+    char phone[15];
 
     int age;
     char cin[50];
@@ -83,7 +83,7 @@ void getPassword(char *password, int maxLen) {
     password[i] = '\0';  // Null-terminate the password
 }
 
-int isValidPhoneNumber(const char *phone) {
+int isValidPhoneNumber(char *phone) {
     if (strlen(phone) != 10) {
         return 0;  // Must be exactly 10 characters
     }
@@ -113,7 +113,7 @@ void saisie() {
     client1.address[strcspn(client1.address, "\n")] = '\0'; 
      while(1){
      printf("ecrire votre phone : \n");
-     scanf("%19s", client1.phone);
+     scanf("%14s", client1.phone);
 
      if (isValidPhoneNumber(client1.phone)) {
             break;  // Exit loop if phone number is valid
@@ -171,7 +171,7 @@ void saisie() {
     if (strcmp(client1.password, client2.password) == 0) {
         printf(GREEN "Merci! Votre compte a ete cree avec succes.\n");
         printf(CYAN  "Veuillez essayer de vous connecter en selectionnant l'option :"MAGENTA" J'ai deja un compte.\n");
-        windows("pause");
+        system("pause");
     } 
         else {
             printf(RED"les deux password sont different \n");
@@ -191,7 +191,7 @@ fsaisie=fopen("fsaisie.txt","a+");
         fprintf(fsaisie,"%s",header);
         fprintf(fsaisie,"%s","-----------------------------------------------------------------------------------------------------\n");
     }
-     fprintf(fsaisie,"%s\t%s\t%s\t%s\t%d\t%s\t%s\t%s\n",client1.nom,client1.address,client1.phone,client1.age,client1.cin,client1.email,client1.password);
+     fprintf(fsaisie,"%s\t%s\t%s\t%d\t%s\t%s\t%s\n",client1.nom,client1.address,client1.phone,client1.age,client1.cin,client1.email,client1.password);
      fclose(fsaisie);
  }
 // Function to log in with an existing account
@@ -300,8 +300,8 @@ void display_car_models_menu() {
     Options options;
     char *CAR_OPTIONS[] = {
        BOLD "Modeles de voiture",
-       BOLD "Sortir",
-       BOLD "Reservation d'une voiture"
+       BOLD "Reservation d'une voiture",
+       BOLD "Sortir"
     };
     options.title = "MENU DES MODELES DE VOITURE";
     options.ops = CAR_OPTIONS;
