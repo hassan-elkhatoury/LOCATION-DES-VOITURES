@@ -1,0 +1,24 @@
+mercedes          Classe S          150              mer1234          Disponible
+dacia             Duster            45               dac1234          Loue
+BMW               Serie 3           85               BMW1234          Disponible
+renault           Clio 4            50               ren1234          Loue
+audi              A4                90               aud1234          Disponible
+peugeot           208               55               pgt1234          Disponible
+toyota            Corolla           60               toy1234          Disponible
+hyundai           Elantra           65               hyu1234          Loue
+ford              Fiesta            50               for1234          Disponible
+volkswagen        Golf              70               VW1234           Disponible
+jaguar            XE                110              jag1234          Disponible
+tesla             Model 3           130              tes1234          Loue
+porsche           Panamera          180              por1234          Disponible
+nissan            Qashqai           75               nis1234          Disponible
+toyota            Yaris             50               toy2345          Loue
+honda             Civic             65               hon1234          Disponible
+bentley           Flying Spur       240              ben1234          Disponible
+rolls-royce       Ghost             300              rol1234          Loue
+renault           Megane            60               ren2345          Disponible
+citroen           C3                55               cit1234          Loue
+ferrari           Roma              300              fer1234          Disponible
+lamborghini       Urus              350              lam1234          Loue
+maserati          Ghibli            160              mas1234          Disponible
+volkswagen        Passat            75               VW2345           Disponible
